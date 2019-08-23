@@ -14,15 +14,16 @@ const CodeTable = {
       <tbody>
         <tr v-for="item in items">
         <td>{{item.frase}}</td>
-        <td>{{item.palindromo}}</td>
+        <template v-if="item.palindromo == 'Sim'">
+          <td data-verificado="positivo">{{item.palindromo}}</td>
+        </template>
+        <template v-else>
+          <td data-verificado="negativo">{{item.palindromo}}</td>
+        </template>
         </tr>
       </tbody>
     </table>
   `
-};
-
-const CodeInput = {
-  template: `<input @keyup.enter="$emit('insert')"/>`
 };
 
 const CodeContainer = {

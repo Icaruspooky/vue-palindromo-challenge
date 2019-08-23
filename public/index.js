@@ -2,7 +2,6 @@ new Vue({
   el: "#app",
   components: {
     CodeTable,
-    CodeInput,
     CodeContainer
   },
 
@@ -18,10 +17,16 @@ new Vue({
 
   template: `
     <code-container>
-      <div class="field">
-        <label class="label">Verificador de Palíndromo</label>
+      <div class="field">     
+      <h3 class="subtitle">Verificador de Palíndromo</h3>    
+        <div class="buttons has-addons is-right">
+          <a v-on:click="erase()" data-test="limpar-dados" class="button">Apagar Histórico</a>
+        </div>
         <div class="control">
-          <code-input @insert="addItem(form)" class="input" v-model="form.frase"/>
+          <input v-on:keyup.enter="addItem(form)"
+          data-test="entrada"
+          class="input" v-model="form.frase" 
+          placeholder="Frase a ser verificada" />
         </div>
       </div>
       <code-table :items="items"></code-table>
@@ -30,11 +35,14 @@ new Vue({
 
   methods: {
     addItem(form) {
-      if (form) {
-        form.palindrome = (this.isPalindrome(form.frase) ? "Sim" : "Não");
+      if (form.frase.trim()) {
+        form.palindromo = (this.isPalindrome(form.frase) ? "Sim" : "Não");
         this.items.push({ ...form });
-        this.value = "";
+        form.frase = "";
       }
+    },
+    erase(){
+      this.items = [];
     },
     loadItems() {
       this.items = data;
